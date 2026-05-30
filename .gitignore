@@ -1,0 +1,19 @@
+# Artefatos de build AVR
+*.o
+*.elf
+*.hex
+*.eep
+*.lst
+*.lss
+*.map
+*.sym
+build/
+obj/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+*.swp
