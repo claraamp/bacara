@@ -23,24 +23,45 @@ extern volatile uint8_t player_count, banker_count;
 
 static uint8_t lcd_backlight = LCD_BL;
 
-/* ============================ camada I2C (TWI) ============================ */
+/* ============================ camada I2C (bit-bang em PC4/PC5) =============
+ * Substitui o TWI por hardware para compatibilidade com o SimulIDE,
+ * que não simula corretamente o módulo TWI do ATmega (TWINT nunca seta).
+ * GPIO puro é simulado com precisão em qualquer versão do SimulIDE.
+ *   SDA = PC4 (A4)   SCL = PC5 (A5)  — mesmos pinos do TWI físico.
+ * ========================================================================== */
+#define SDA_BIT  PC4
+#define SCL_BIT  PC5
+
+#define SDA_H()  (PORTC |=  (1<<SDA_BIT))
+#define SDA_L()  (PORTC &= ~(1<<SDA_BIT))
+#define SCL_H()  (PORTC |=  (1<<SCL_BIT))
+#define SCL_L()  (PORTC &= ~(1<<SCL_BIT))
+#define I2C_DLY() _delay_us(5)            /* meio-período ~100 kHz */
+
 static void i2c_init(void) {
-    TWSR = 0;                /* prescaler = 1 */
-    TWBR = 72;               /* ~100 kHz @ 16 MHz: (16M/100k - 16)/2 = 72 */
-    TWCR = (1 << TWEN);
+    DDRC  |= (1<<SDA_BIT) | (1<<SCL_BIT); /* SDA e SCL como saída */
+    SDA_H(); SCL_H();                      /* barramento inativo */
+    _delay_ms(1);
 }
 static void i2c_start(void) {
-    TWCR = (1 << TWINT) | (1 << TWSTA) | (1 << TWEN);
-    while (!(TWCR & (1 << TWINT)));
+    SDA_H(); SCL_H(); I2C_DLY();
+    SDA_L();          I2C_DLY();  /* SDA cai com SCL alto = START */
+    SCL_L();          I2C_DLY();
 }
 static void i2c_stop(void) {
-    TWCR = (1 << TWINT) | (1 << TWSTO) | (1 << TWEN);
-    while (TWCR & (1 << TWSTO));
+    SDA_L(); SCL_H(); I2C_DLY();
+    SDA_H();          I2C_DLY();  /* SDA sobe com SCL alto = STOP */
 }
 static void i2c_write(uint8_t data) {
-    TWDR = data;
-    TWCR = (1 << TWINT) | (1 << TWEN);
-    while (!(TWCR & (1 << TWINT)));
+    for (int8_t i = 7; i >= 0; i--) {
+        if (data & (1 << i)) SDA_H(); else SDA_L();
+        I2C_DLY();
+        SCL_H(); I2C_DLY();
+        SCL_L(); I2C_DLY();
+    }
+    SDA_H(); I2C_DLY();            /* libera SDA para o slave enviar ACK */
+    SCL_H(); I2C_DLY();            /* pulsa clock do ACK (ignoramos o valor) */
+    SCL_L(); I2C_DLY();
 }
 
 /* escreve um byte no PCF8574 (já com o backlight) */
