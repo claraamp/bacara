@@ -72,11 +72,14 @@ __vector_1:
     push r24
     in   r24, _SFR_IO_ADDR(SREG)
     push r24
+    sbic _SFR_IO_ADDR(PIND), PD2    ; se PD2=0 (pressionado), pula o rjmp
+    rjmp int0_fim                    ; PD2=1 (bounce: ja soltou): ignora
     ldi  r24, BET_PLAYER
     sts  bet_type, r24
     lds  r24, flags
     ori  r24, (1<<FLG_NEW_BET)
     sts  flags, r24
+int0_fim:
     pop  r24
     out  _SFR_IO_ADDR(SREG), r24
     pop  r24
@@ -90,11 +93,14 @@ __vector_2:
     push r24
     in   r24, _SFR_IO_ADDR(SREG)
     push r24
+    sbic _SFR_IO_ADDR(PIND), PD3    ; se PD3=0 (pressionado), pula o rjmp
+    rjmp int1_fim                    ; PD3=1 (bounce: ja soltou): ignora
     ldi  r24, BET_BANKER
     sts  bet_type, r24
     lds  r24, flags
     ori  r24, (1<<FLG_NEW_BET)
     sts  flags, r24
+int1_fim:
     pop  r24
     out  _SFR_IO_ADDR(SREG), r24
     pop  r24

@@ -114,8 +114,8 @@
 /* ==========================================================================
  *  MAPA DE RECURSOS  (quem usa o quê — evita dois módulos brigando)
  *
- *    Timer2 (CTC) ......... multiplexação dos displays. ISR TIMER2_COMPA_vect.
- *                           Config na init do main.S; lógica em display.S.
+ *    Timer2 (Normal/OVF) .. multiplexação dos displays. ISR TIMER2_OVF_vect.
+ *                           Config na init do display.S; lógica em display.S.
  *                           Alvo: refresh >= 100 Hz por display (sem flicker).
  *    INT0 (PD2) ........... botão Jogador. ISR INT0_vect.   (interrupts.S)
  *    INT1 (PD3) ........... botão Banca.   ISR INT1_vect.   (interrupts.S)
@@ -150,8 +150,7 @@
  * ==========================================================================*/
 
 /* ==========================================================================
- *  API DO C  (lcd_interface.c)  —  protótipos ficam em lcd_interface.h,
- *  mas os NOMES e assinaturas estão travados aqui:
+ *  API DO C  (lcd_direto.c)  —  assinaturas travadas aqui:
  *
  *      void lcd_init(void);
  *      void lcd_message(uint8_t msg_id);            // 1o arg -> r24

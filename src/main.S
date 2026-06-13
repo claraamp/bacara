@@ -14,7 +14,7 @@
  *    decide_simples, decide_banca_p3,
  *    define_vencedor                     (game.S)
  *    lcd_init, lcd_message, lcd_scores,
- *    lcd_cards, lcd_clear                (lcd_interface.c)
+ *    lcd_cards, lcd_clear                (lcd_direto.c)
  *
  *  ABI: 1o arg -> r24, 2o -> r22, 3o -> r20.
  *       Scratch clobbered por chamadas: r18-r27, r30, r31.
@@ -422,6 +422,11 @@ fr_you_lose:
     ldi  r24, MSG_YOU_LOSE
 fr_show_outcome:
     rcall lcd_message            /* "Voce ganhou!" ou "Voce perdeu" */
+
+    /* descarta qualquer FLG_NEW_BET acumulado durante a rodada */
+    lds  r24, flags
+    andi r24, ~(1<<FLG_NEW_BET)
+    sts  flags, r24
 
     ldi  r24, ST_RESULT
     sts  game_state, r24

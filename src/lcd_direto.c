@@ -13,7 +13,6 @@
  * Compila com: avr-gcc -mmcu=atmega328p -DF_CPU=16000000UL -Os -I src
  * ==========================================================================*/
 #include "defs.h"
-#include "lcd_interface.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
@@ -144,7 +143,7 @@ static const char str_j[] PROGMEM = "J:";
 static const char str_b[] PROGMEM = "B:";
 
 /* ==========================================================================
- *  API pública  (protótipos em lcd_interface.h, travados em defs.h)
+ *  API pública  (assinaturas travadas em defs.h)
  * ==========================================================================*/
 
 /*
