@@ -74,7 +74,21 @@ static void lcd_data(uint8_t d) {
     _delay_us(40);
 }
 
+static void lcd_soft_reset(void) {
+    PORTC &= ~(1<<RS);
+    lcd_send4(0x03);
+    _delay_ms(5);
+    lcd_send4(0x03);
+    _delay_us(150);
+    lcd_send4(0x03);
+    lcd_send4(0x02);
+    lcd_cmd(0x28);
+    lcd_cmd(0x0C);
+    lcd_cmd(0x06);
+}
+
 void lcd_clear(void) {
+    lcd_soft_reset();
     lcd_cmd(0x01);
 }
 
