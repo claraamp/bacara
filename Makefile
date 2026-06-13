@@ -9,7 +9,7 @@ SRCS = src/main.S \
        src/display.S \
        src/interrupts.S \
        src/game.S \
-       src/lcd_interface.c
+       src/lcd_direto.c
 
 OBJS = $(SRCS:.S=.o)
 OBJS := $(OBJS:.c=.o)

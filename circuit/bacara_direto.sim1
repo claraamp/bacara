@@ -1,0 +1,216 @@
+<circuit version="1.1.0-SR2" rev="260424" stepSize="1000000" stepsPS="1000000" NLsteps="100000" reaStep="1000000" animate="0" >
+
+<!-- ======================================================================
+     Bacará – ATmega328P (Arduino Nano) @ 16 MHz
+     Versão: LCD HD44780 ligado DIRETAMENTE em PORTC (sem módulo I2C)
+
+     Mapeamento LCD:
+       RS  → A0 (PC0)   RW  → GND (fio direto)   EN  → A1 (PC1)
+       D4  → A2 (PC2)   D5  → A3 (PC3)
+       D6  → A4 (PC4)   D7  → A5 (PC5)
+
+     Botões (ativo-LOW, pull-up interno no firmware):
+       Jog (Jogador) → D2  / PD2 / INT0
+       Ban (Banca)   → D3  / PD3 / INT1
+       Emp (Empate)  → D13 / PB5 / PCINT5
+
+     Displays 7-seg (cátodo comum, seleção via NPN):
+       Segmentos a-d → D4-D7 (PD4-PD7)
+       Segmentos e-g → D8-D10 (PB0-PB2)
+       Sel. Jogador  → D12 (PB4) via BJT
+       Sel. Banca    → D11 (PB3) via BJT
+   ====================================================================== -->
+
+<item itemtype="Subcircuit" CircId="Nano-11" mainComp="false" Show_id="true" Show_Val="false" Pos="328,-480" rotation="0" hflip="1" vflip="1" label="Nano-11" idLabPos="0,-20" labelrot="0" valLabPos="-16,20" valLabRot="0">
+<mainCompProps MainCompId="m328 TQFP-269" Frequency="16 MHz" Auto_Load="false" saveEepr="true" MainMcu="true" SerialMon="-1" />
+</item>
+
+<!-- Botão Jogador: pino→D2, outro terminal→GND -->
+<item itemtype="Push" CircId="Push-13" mainComp="false" Show_id="true" Show_Val="false" Pos="204,-540" rotation="0" hflip="1" vflip="1" label="Jog" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Norm_Close="false" Poles="1" />
+
+<!-- Botão Banca: pino→D3, outro terminal→GND -->
+<item itemtype="Push" CircId="Push-14" mainComp="false" Show_id="true" Show_Val="false" Pos="252,-540" rotation="0" hflip="1" vflip="1" label="Ban" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Norm_Close="false" Poles="1" />
+
+<!-- Botão Empate: pino→D13, outro terminal→GND -->
+<item itemtype="Push" CircId="Push-15" mainComp="false" Show_id="true" Show_Val="false" Pos="300,-540" rotation="0" hflip="1" vflip="1" label="Emp" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Norm_Close="false" Poles="1" />
+
+<!-- Display 7-seg esquerdo (Jogador) -->
+<item itemtype="Seven Segment" CircId="Seven Segment-16" mainComp="false" Show_id="false" Show_Val="false" Pos="60,-168" rotation="0" hflip="1" vflip="1" label="Seven Segment-16" idLabPos="20,-44" labelrot="0" valLabPos="-16,20" valLabRot="0" Color="Yellow" NumDisplays="1" Vertical_Pins="false" CommonCathode="true" Threshold="2.4 V" MaxCurrent="20 mA" Resistance="1 Ω" />
+
+<!-- Display 7-seg direito (Banca) -->
+<item itemtype="Seven Segment" CircId="Seven Segment-17" mainComp="false" Show_id="false" Show_Val="false" Pos="156,-168" rotation="0" hflip="1" vflip="1" label="Seven Segment-17" idLabPos="20,-44" labelrot="0" valLabPos="-16,20" valLabRot="0" Color="Yellow" NumDisplays="1" Vertical_Pins="false" CommonCathode="true" Threshold="2.4 V" MaxCurrent="20 mA" Resistance="1 Ω" />
+
+<!-- BJT seleção display direito (Banca, D11/PB3) -->
+<item itemtype="BJT" CircId="BJT-18" mainComp="false" Show_id="false" Show_Val="false" Pos="208,-92" rotation="-180" hflip="1" vflip="1" label="BJT-18" idLabPos="18,0" labelrot="0" valLabPos="-16,20" valLabRot="0" PNP="false" Gain="100" Vcrit="0.670736 V" />
+
+<!-- LCD HD44780 16x2 — conexão direta ao PORTC -->
+<item itemtype="Hd44780" CircId="Hd44780-21" mainComp="false" Show_id="false" Show_Val="false" Pos="468,-456" rotation="0" hflip="1" vflip="1" label="Hd44780-21" idLabPos="70,-82" labelrot="0" valLabPos="-16,20" valLabRot="0" Rows="2" Cols="16" />
+
+<!-- Resistores de segmento 330Ω (a,b,c,d,e,f,g) -->
+<item itemtype="Resistor" CircId="Resistor-32" mainComp="false" ShowProp="Resistance" Show_id="false" Show_Val="true" Pos="200,-316" rotation="0" hflip="1" vflip="1" label="Resistor-32" idLabPos="-16,-24" labelrot="0" valLabPos="-16,6" valLabRot="0" Resistance="330 Ω" />
+<item itemtype="Resistor" CircId="Resistor-37" mainComp="false" ShowProp="Resistance" Show_id="false" Show_Val="true" Pos="200,-276" rotation="0" hflip="1" vflip="1" label="Resistor-37" idLabPos="-16,-24" labelrot="0" valLabPos="-16,6" valLabRot="0" Resistance="330 Ω" />
+<item itemtype="Resistor" CircId="Resistor-38" mainComp="false" ShowProp="Resistance" Show_id="false" Show_Val="true" Pos="200,-296" rotation="0" hflip="1" vflip="1" label="Resistor-38" idLabPos="-16,-24" labelrot="0" valLabPos="-16,6" valLabRot="0" Resistance="330 Ω" />
+<item itemtype="Resistor" CircId="Resistor-39" mainComp="false" ShowProp="Resistance" Show_id="false" Show_Val="true" Pos="200,-256" rotation="0" hflip="1" vflip="1" label="Resistor-39" idLabPos="-16,-24" labelrot="0" valLabPos="-16,6" valLabRot="0" Resistance="330 Ω" />
+<item itemtype="Resistor" CircId="Resistor-40" mainComp="false" ShowProp="Resistance" Show_id="false" Show_Val="true" Pos="200,-236" rotation="0" hflip="1" vflip="1" label="Resistor-40" idLabPos="-16,-24" labelrot="0" valLabPos="-16,6" valLabRot="0" Resistance="330 Ω" />
+<item itemtype="Resistor" CircId="Resistor-41" mainComp="false" ShowProp="Resistance" Show_id="false" Show_Val="true" Pos="200,-336" rotation="0" hflip="1" vflip="1" label="Resistor-41" idLabPos="-16,-24" labelrot="0" valLabPos="-16,6" valLabRot="0" Resistance="330 Ω" />
+<item itemtype="Resistor" CircId="Resistor-42" mainComp="false" ShowProp="Resistance" Show_id="false" Show_Val="true" Pos="200,-356" rotation="0" hflip="1" vflip="1" label="Resistor-42" idLabPos="-16,-24" labelrot="0" valLabPos="-16,6" valLabRot="0" Resistance="330 Ω" />
+
+<!-- Resistores de base dos BJTs 1kΩ -->
+<item itemtype="Resistor" CircId="Resistor-56" mainComp="false" ShowProp="Resistance" Show_id="false" Show_Val="true" Pos="252,-92" rotation="0" hflip="1" vflip="1" label="Resistor-56" idLabPos="-16,-24" labelrot="0" valLabPos="-16,6" valLabRot="0" Resistance="1000 Ω" />
+<item itemtype="Resistor" CircId="Resistor-57" mainComp="false" ShowProp="Resistance" Show_id="false" Show_Val="true" Pos="252,-48" rotation="0" hflip="1" vflip="1" label="Resistor-57" idLabPos="-16,-24" labelrot="0" valLabPos="-16,6" valLabRot="0" Resistance="1000 Ω" />
+
+<!-- BJT seleção display esquerdo (Jogador, D12/PB4) -->
+<item itemtype="BJT" CircId="BJT-58" mainComp="false" Show_id="false" Show_Val="false" Pos="208,-48" rotation="-180" hflip="1" vflip="1" label="BJT-58" idLabPos="18,0" labelrot="0" valLabPos="-16,20" valLabRot="0" PNP="false" Gain="100" Vcrit="0.670736 V" />
+
+<!-- Nós de junção -->
+<item itemtype="Node" CircId="Node-30" mainComp="false" Pos="268,-440" />
+<item itemtype="Node" CircId="Node-31" mainComp="false" Pos="316,-440" />
+<item itemtype="Node" CircId="Node-49" mainComp="false" Pos="124,-336" />
+<item itemtype="Node" CircId="Node-50" mainComp="false" Pos="132,-356" />
+<item itemtype="Node" CircId="Node-51" mainComp="false" Pos="116,-316" />
+<item itemtype="Node" CircId="Node-52" mainComp="false" Pos="108,-296" />
+<item itemtype="Node" CircId="Node-53" mainComp="false" Pos="100,-276" />
+<item itemtype="Node" CircId="Node-54" mainComp="false" Pos="92,-256" />
+<item itemtype="Node" CircId="Node-55" mainComp="false" Pos="84,-236" />
+<item itemtype="Node" CircId="Node-61" mainComp="false" Pos="280,-440" />
+<item itemtype="Node" CircId="Node-66" mainComp="false" Pos="280,-108" />
+
+<!-- ====================================================================
+     CONEXÕES — LCD DIRETO (PORTC → HD44780)
+     RW aterrado: evita modo de leitura e conflito de barramento
+     ==================================================================== -->
+
+<!-- A0 (PC0) → RS -->
+<item itemtype="Connector" uid="Connector-200" startpinid="Nano-11-A0" endpinid="Hd44780-21-PinRS" pointList="384,-376,484,-376,484,-448" />
+
+<!-- GND → RW  (RW=LOW: modo escrita permanente) -->
+<item itemtype="Connector" uid="Connector-201" startpinid="Nano-11-GND1" endpinid="Hd44780-21-PinRW" pointList="384,-456,492,-456,492,-448" />
+
+<!-- A1 (PC1) → EN -->
+<item itemtype="Connector" uid="Connector-202" startpinid="Nano-11-A1" endpinid="Hd44780-21-PinEn" pointList="384,-384,500,-384,500,-448" />
+
+<!-- A2 (PC2) → D4 -->
+<item itemtype="Connector" uid="Connector-203" startpinid="Nano-11-A2" endpinid="Hd44780-21-dataPin4" pointList="384,-392,540,-392,540,-448" />
+
+<!-- A3 (PC3) → D5 -->
+<item itemtype="Connector" uid="Connector-204" startpinid="Nano-11-A3" endpinid="Hd44780-21-dataPin5" pointList="384,-400,548,-400,548,-448" />
+
+<!-- A4 (PC4) → D6 -->
+<item itemtype="Connector" uid="Connector-205" startpinid="Nano-11-A4" endpinid="Hd44780-21-dataPin6" pointList="384,-408,556,-408,556,-448" />
+
+<!-- A5 (PC5) → D7 -->
+<item itemtype="Connector" uid="Connector-206" startpinid="Nano-11-A5" endpinid="Hd44780-21-dataPin7" pointList="384,-416,564,-416,564,-448" />
+
+<!-- ====================================================================
+     CONEXÕES — BOTÕES
+     ==================================================================== -->
+
+<!-- D2 → Jog -->
+<item itemtype="Connector" uid="Connector-22" startpinid="Nano-11-2" endpinid="Push-13-pinP0" pointList="336,-432,188,-432,188,-540" />
+
+<!-- D3 → Ban -->
+<item itemtype="Connector" uid="Connector-23" startpinid="Nano-11-3" endpinid="Push-14-pinP0" pointList="336,-424,236,-424,236,-540" />
+
+<!-- Ban terminal GND → nó comum -->
+<item itemtype="Connector" uid="Connector-30" startpinid="Push-14-switch0pinN" endpinid="Node-30-1" pointList="268,-540,268,-440" />
+
+<!-- Jog terminal GND → nó comum -->
+<item itemtype="Connector" uid="Connector-31" startpinid="Push-13-switch0pinN" endpinid="Node-30-0" pointList="220,-540,220,-440,268,-440" />
+
+<!-- Emp terminal GND → Node-31 -->
+<item itemtype="Connector" uid="Connector-33" startpinid="Push-15-switch0pinN" endpinid="Node-31-1" pointList="316,-540,316,-440" />
+
+<!-- Node-31 → GND0 -->
+<item itemtype="Connector" uid="Connector-35" startpinid="Node-31-2" endpinid="Nano-11-GND0" pointList="316,-440,336,-440" />
+
+<!-- D13 → Emp -->
+<item itemtype="Connector" uid="Connector-132" startpinid="Push-15-pinP0" endpinid="Nano-11-13" pointList="284,-540,284,-564,404,-564,404,-352,384,-352" />
+
+<!-- Nós da GND dos botões Jog/Ban -->
+<item itemtype="Connector" uid="Connector-123" startpinid="Node-30-2" endpinid="Node-61-0" pointList="268,-440,280,-440" />
+<item itemtype="Connector" uid="Connector-124" startpinid="Node-61-2" endpinid="Node-31-0" pointList="280,-440,316,-440" />
+
+<!-- ====================================================================
+     CONEXÕES — SEGMENTOS DO DISPLAY (D4-D10 → resistores 330Ω → displays)
+     ==================================================================== -->
+
+<!-- D4 → R42 → seg a (ambos os displays) -->
+<item itemtype="Connector" uid="Connector-37" startpinid="Nano-11-4" endpinid="Resistor-42-rPin" pointList="336,-416,216,-416,216,-356" />
+
+<!-- D5 → R41 → seg b -->
+<item itemtype="Connector" uid="Connector-38" startpinid="Nano-11-5" endpinid="Resistor-41-rPin" pointList="336,-408,224,-408,224,-336,216,-336" />
+
+<!-- D6 → R32 → seg c -->
+<item itemtype="Connector" uid="Connector-66" startpinid="Nano-11-6" endpinid="Resistor-32-rPin" pointList="336,-400,232,-400,232,-316,216,-316" />
+
+<!-- D7 → R38 → seg d -->
+<item itemtype="Connector" uid="Connector-40" startpinid="Nano-11-7" endpinid="Resistor-38-rPin" pointList="336,-392,240,-392,240,-296,216,-296" />
+
+<!-- D8 → R37 → seg e -->
+<item itemtype="Connector" uid="Connector-67" startpinid="Nano-11-8" endpinid="Resistor-37-rPin" pointList="336,-384,248,-384,248,-276,216,-276" />
+
+<!-- D9 → R39 → seg f -->
+<item itemtype="Connector" uid="Connector-68" startpinid="Nano-11-9" endpinid="Resistor-39-rPin" pointList="336,-376,256,-376,256,-256,216,-256" />
+
+<!-- D10 → R40 → seg g -->
+<item itemtype="Connector" uid="Connector-69" startpinid="Nano-11-10" endpinid="Resistor-40-rPin" pointList="336,-368,264,-368,264,-236,216,-236" />
+
+<!-- R42 → seg a (display direito + esquerdo via Node-50) -->
+<item itemtype="Connector" uid="Connector-76" startpinid="Seven Segment-17-pin_a" endpinid="Node-50-1" pointList="132,-192,132,-356" />
+<item itemtype="Connector" uid="Connector-77" startpinid="Resistor-42-lPin" endpinid="Node-50-0" pointList="184,-356,132,-356" />
+<item itemtype="Connector" uid="Connector-78" startpinid="Node-50-2" endpinid="Seven Segment-16-pin_a" pointList="132,-356,36,-356,36,-192" />
+
+<!-- R41 → seg b (Node-49) -->
+<item itemtype="Connector" uid="Connector-72" startpinid="Seven Segment-17-pin_b" endpinid="Node-49-1" pointList="132,-184,124,-184,124,-336" />
+<item itemtype="Connector" uid="Connector-73" startpinid="Resistor-41-lPin" endpinid="Node-49-0" pointList="184,-336,124,-336" />
+<item itemtype="Connector" uid="Connector-74" startpinid="Node-49-2" endpinid="Seven Segment-16-pin_b" pointList="124,-336,28,-336,28,-184,36,-184" />
+
+<!-- R32 → seg c (Node-51) -->
+<item itemtype="Connector" uid="Connector-80" startpinid="Seven Segment-17-pin_c" endpinid="Node-51-1" pointList="132,-176,116,-176,116,-316" />
+<item itemtype="Connector" uid="Connector-81" startpinid="Resistor-32-lPin" endpinid="Node-51-0" pointList="184,-316,116,-316" />
+<item itemtype="Connector" uid="Connector-82" startpinid="Node-51-2" endpinid="Seven Segment-16-pin_c" pointList="116,-316,20,-316,20,-176,36,-176" />
+
+<!-- R38 → seg d (Node-52) -->
+<item itemtype="Connector" uid="Connector-90" startpinid="Seven Segment-17-pin_d" endpinid="Node-52-1" pointList="132,-168,108,-168,108,-296" />
+<item itemtype="Connector" uid="Connector-91" startpinid="Resistor-38-lPin" endpinid="Node-52-0" pointList="184,-296,108,-296" />
+<item itemtype="Connector" uid="Connector-92" startpinid="Node-52-2" endpinid="Seven Segment-16-pin_d" pointList="108,-296,12,-296,12,-168,36,-168" />
+
+<!-- R37 → seg e (Node-53) -->
+<item itemtype="Connector" uid="Connector-93" startpinid="Seven Segment-17-pin_e" endpinid="Node-53-1" pointList="132,-160,100,-160,100,-276" />
+<item itemtype="Connector" uid="Connector-94" startpinid="Resistor-37-lPin" endpinid="Node-53-0" pointList="184,-276,100,-276" />
+<item itemtype="Connector" uid="Connector-95" startpinid="Node-53-2" endpinid="Seven Segment-16-pin_e" pointList="100,-276,4,-276,4,-160,36,-160" />
+
+<!-- R39 → seg f (Node-54) -->
+<item itemtype="Connector" uid="Connector-96" startpinid="Seven Segment-17-pin_f" endpinid="Node-54-1" pointList="132,-152,92,-152,92,-256" />
+<item itemtype="Connector" uid="Connector-97" startpinid="Resistor-39-lPin" endpinid="Node-54-0" pointList="184,-256,92,-256" />
+<item itemtype="Connector" uid="Connector-98" startpinid="Node-54-2" endpinid="Seven Segment-16-pin_f" pointList="92,-256,-4,-256,-4,-152,36,-152" />
+
+<!-- R40 → seg g (Node-55) -->
+<item itemtype="Connector" uid="Connector-99" startpinid="Seven Segment-17-pin_g" endpinid="Node-55-1" pointList="132,-144,84,-144,84,-236" />
+<item itemtype="Connector" uid="Connector-100" startpinid="Resistor-40-lPin" endpinid="Node-55-0" pointList="184,-236,84,-236" />
+<item itemtype="Connector" uid="Connector-101" startpinid="Node-55-2" endpinid="Seven Segment-16-pin_g" pointList="84,-236,-12,-236,-12,-144,36,-144" />
+
+<!-- ====================================================================
+     CONEXÕES — BJTs DE SELEÇÃO DOS DISPLAYS
+     ==================================================================== -->
+
+<!-- D11 (PB3) → R56 → BJT-18 base (seleção display direito / Banca) -->
+<item itemtype="Connector" uid="Connector-104" startpinid="Nano-11-11" endpinid="Resistor-56-rPin" pointList="336,-360,292,-360,292,-92,268,-92" />
+<item itemtype="Connector" uid="Connector-103" startpinid="BJT-18-base" endpinid="Resistor-56-lPin" pointList="224,-92,236,-92" />
+
+<!-- D12 (PB4) → R57 → BJT-58 base (seleção display esquerdo / Jogador) -->
+<item itemtype="Connector" uid="Connector-106" startpinid="Resistor-57-rPin" endpinid="Nano-11-12" pointList="268,-48,300,-48,300,-352,336,-352" />
+<item itemtype="Connector" uid="Connector-105" startpinid="BJT-58-base" endpinid="Resistor-57-lPin" pointList="224,-48,236,-48" />
+
+<!-- GND comum dos displays → emissores dos BJTs (Node-61 → Node-66) -->
+<item itemtype="Connector" uid="Connector-143" startpinid="Node-61-1" endpinid="Node-66-0" pointList="280,-440,280,-108" />
+<item itemtype="Connector" uid="Connector-144" startpinid="Node-66-2" endpinid="BJT-18-emiter" pointList="280,-108,200,-108" />
+<item itemtype="Connector" uid="Connector-147" startpinid="Node-66-1" endpinid="BJT-58-emiter" pointList="280,-108,280,-64,200,-64" />
+
+<!-- Cátodo comum display direito → coletor BJT-18 -->
+<item itemtype="Connector" uid="Connector-148" startpinid="Seven Segment-17-pin_commona" endpinid="BJT-18-collector" pointList="164,-136,164,-76,200,-76" />
+
+<!-- Cátodo comum display esquerdo → coletor BJT-58 -->
+<item itemtype="Connector" uid="Connector-150" startpinid="Seven Segment-16-pin_commona" endpinid="BJT-58-collector" pointList="68,-136,68,-32,200,-32" />
+
+</circuit>
